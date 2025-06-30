@@ -47,6 +47,7 @@ import { EuiScreenReaderOnly } from '../accessibility';
 import { EuiFlyoutCloseButton } from './_flyout_close_button';
 import { euiFlyoutStyles } from './flyout.styles';
 import { EuiFlyoutChild } from './flyout_child';
+import { EuiFlyoutMenu } from './flyout_menu';
 import { EuiFlyoutChildProvider } from './flyout_child_manager';
 
 export const TYPES = ['push', 'overlay'] as const;
@@ -230,6 +231,13 @@ export const EuiFlyout = forwardRef(
     const hasChildFlyout = !!childFlyoutElement;
 
     // Validate props, determine close button position and set child flyout classes
+    const hasFlyoutMenu = React.Children.toArray(children).some(
+      (child) =>
+        React.isValidElement(child) &&
+        (child.type === EuiFlyoutMenu ||
+          (child.type as any).displayName === 'EuiFlyoutMenu')
+    );
+
     let closeButtonPosition: 'inside' | 'outside';
     let childFlyoutClasses: string[] = [];
     if (hasChildFlyout) {
@@ -452,7 +460,7 @@ export const EuiFlyout = forwardRef(
       [onClose, hasOverlayMask, outsideClickCloses]
     );
 
-    const closeButton = !hideCloseButton && (
+    const closeButton = !hideCloseButton && !hasFlyoutMenu && (
       <EuiFlyoutCloseButton
         {...closeButtonProps}
         onClose={onClose}
