@@ -24,6 +24,7 @@ import { EuiFlyoutCloseButton } from './_flyout_close_button';
 import { EuiFlyoutContext } from './flyout_context';
 import { EuiFlyoutBody } from './flyout_body';
 import { EuiFlyoutMenu } from './flyout_menu';
+import { EuiFlyoutMenuContext } from './flyout_menu_context';
 import { EuiFocusTrap } from '../focus_trap';
 
 /**
@@ -276,7 +277,9 @@ export const EuiFlyoutChild: FunctionComponent<EuiFlyoutChildProps> = ({
             className="euiFlyoutChild__overflowContent"
             css={styles.overflow.wrapper}
           >
-            {processedChildren}
+            <EuiFlyoutMenuContext.Provider value={{ onClose }}>
+              {processedChildren}
+            </EuiFlyoutMenuContext.Provider>
           </div>
         </div>
       </div>

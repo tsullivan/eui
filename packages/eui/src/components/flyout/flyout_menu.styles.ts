@@ -14,7 +14,8 @@ export const useEuiFlyoutMenuStyles = () => {
 
   return {
     euiFlyoutMenu: css`
-      flex-shrink: 0; /* Ensures the menu bar doesn't shrink if the content is long */
+      block-size: calc(${euiTheme.size.m} * 3.5);
+      flex-shrink: 0;
       padding-block: ${euiTheme.size.m};
       padding-inline: ${euiTheme.size.l};
       border-block-end: ${euiTheme.border.width.thin} solid

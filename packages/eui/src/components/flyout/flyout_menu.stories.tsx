@@ -15,8 +15,11 @@ import { EuiButton } from '../button';
 import { EuiFlyout } from './flyout';
 import { EuiFlyoutBody } from './flyout_body';
 import { EuiFlyoutChild } from './flyout_child';
-
 import { EuiFlyoutMenu, EuiFlyoutMenuProps } from './flyout_menu';
+import { EuiText } from '../text';
+import { EuiSpacer } from '../spacer';
+import { EuiFlyoutHeader } from './flyout_header';
+import { EuiTitle } from '../title';
 
 type FlyoutMenuStoryArgs = EuiFlyoutMenuProps & {};
 
@@ -44,95 +47,7 @@ The Flyout menu bar is a horizontal bar that may appear at the top of parent and
 export default meta;
 type Story = StoryObj<FlyoutMenuStoryArgs>;
 
-const WithTitleApp = (args: FlyoutMenuStoryArgs) => {
-  const [isFlyoutVisible, setIsFlyoutVisible] = useState(true);
-  const closeFlyout = () => setIsFlyoutVisible(false);
-  const showFlyout = () => setIsFlyoutVisible(true);
-
-  return (
-    <>
-      <EuiButton onClick={showFlyout} disabled={isFlyoutVisible}>
-        Show flyout with title
-      </EuiButton>
-
-      {isFlyoutVisible && (
-        <EuiFlyout onClose={closeFlyout}>
-          <EuiFlyoutMenu {...args} title="Menu Bar Title" onClose={closeFlyout}>
-            <EuiButton size="s">Controls</EuiButton>
-          </EuiFlyoutMenu>
-          <EuiFlyoutBody>
-            <p>This is the flyout body.</p>
-          </EuiFlyoutBody>
-        </EuiFlyout>
-      )}
-    </>
-  );
-};
-
-export const WithTitle: Story = {
-  name: 'With title',
-  render: (args) => <WithTitleApp {...args} />,
-};
-
-const WithoutTitleApp = (args: FlyoutMenuStoryArgs) => {
-  const [isFlyoutVisible, setIsFlyoutVisible] = useState(true);
-  const closeFlyout = () => setIsFlyoutVisible(false);
-  const showFlyout = () => setIsFlyoutVisible(true);
-
-  return (
-    <>
-      <EuiButton onClick={showFlyout} disabled={isFlyoutVisible}>
-        Show flyout without title
-      </EuiButton>
-
-      {isFlyoutVisible && (
-        <EuiFlyout onClose={closeFlyout}>
-          <EuiFlyoutMenu {...args} onClose={closeFlyout}>
-            <EuiButton size="s">Controls</EuiButton>
-          </EuiFlyoutMenu>
-          <EuiFlyoutBody>
-            <p>This is the flyout body.</p>
-          </EuiFlyoutBody>
-        </EuiFlyout>
-      )}
-    </>
-  );
-};
-export const WithoutTitle: Story = {
-  name: 'Without title',
-  render: (args) => <WithoutTitleApp {...args} />,
-};
-
-const WithoutCloseButtonApp = (args: FlyoutMenuStoryArgs) => {
-  const [isFlyoutVisible, setIsFlyoutVisible] = useState(true);
-  const closeFlyout = () => setIsFlyoutVisible(false);
-  const showFlyout = () => setIsFlyoutVisible(true);
-
-  return (
-    <>
-      <EuiButton onClick={showFlyout} disabled={isFlyoutVisible}>
-        Show flyout without close button
-      </EuiButton>
-
-      {isFlyoutVisible && (
-        <EuiFlyout onClose={closeFlyout}>
-          <EuiFlyoutMenu {...args} hideCloseButton>
-            <EuiButton size="s">Controls</EuiButton>
-          </EuiFlyoutMenu>
-          <EuiFlyoutBody>
-            <p>This is the flyout body.</p>
-          </EuiFlyoutBody>
-        </EuiFlyout>
-      )}
-    </>
-  );
-};
-export const WithoutCloseButton: Story = {
-  name: 'Without close button',
-  render: (args) => <WithoutCloseButtonApp {...args} />,
-};
-
-const InParentAndChildFlyoutApp = () => {
+const InParentAndChildFlyoutRender = () => {
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(true);
   const [isChildFlyoutVisible, setIsChildFlyoutVisible] = useState(false);
 
@@ -147,22 +62,27 @@ const InParentAndChildFlyoutApp = () => {
       <EuiButton onClick={showFlyout} disabled={isFlyoutVisible}>
         Show Flyout
       </EuiButton>
-
       {isFlyoutVisible && (
         <EuiFlyout onClose={closeFlyout}>
-          <EuiFlyoutMenu title="Parent Flyout" onClose={closeFlyout}>
-            <EuiButton size="s">Settings</EuiButton>
+          <EuiFlyoutMenu>
+            <EuiText size="s">Hello</EuiText>
           </EuiFlyoutMenu>
+          <EuiFlyoutHeader>
+            <EuiTitle size="m">
+              <h2>Parent title</h2>
+            </EuiTitle>
+          </EuiFlyoutHeader>
           <EuiFlyoutBody>
-            <p>This is the main flyout body.</p>
+            <EuiText>
+              <p>This is the flyout body.</p>
+            </EuiText>
+            <EuiSpacer />
             <EuiButton onClick={showChildFlyout}>Show Child Flyout</EuiButton>
           </EuiFlyoutBody>
 
           {isChildFlyoutVisible && (
             <EuiFlyoutChild onClose={closeChildFlyout}>
-              <EuiFlyoutMenu title="Child Flyout" onClose={closeChildFlyout}>
-                <EuiButton size="s">Back</EuiButton>
-              </EuiFlyoutMenu>
+              <EuiFlyoutMenu title="Child Flyout" />
               <EuiFlyoutBody>
                 <p>This is the child flyout body.</p>
               </EuiFlyoutBody>
@@ -173,7 +93,37 @@ const InParentAndChildFlyoutApp = () => {
     </>
   );
 };
+
 export const InParentAndChildFlyout: Story = {
-  name: 'In parent and child flyout',
-  render: () => <InParentAndChildFlyoutApp />,
+  render: () => <InParentAndChildFlyoutRender />,
+};
+
+const WithoutCloseButtonRender = (args: FlyoutMenuStoryArgs) => {
+  const [isFlyoutVisible, setIsFlyoutVisible] = useState(true);
+  const closeFlyout = () => setIsFlyoutVisible(false);
+  const showFlyout = () => setIsFlyoutVisible(true);
+
+  return (
+    <>
+      <EuiButton onClick={showFlyout} disabled={isFlyoutVisible}>
+        Show flyout without close button
+      </EuiButton>
+      {isFlyoutVisible && (
+        <EuiFlyout onClose={closeFlyout}>
+          <EuiFlyoutMenu {...args} hideCloseButton title="Menu Bar Title" />
+          <EuiFlyoutBody>
+            <EuiText>
+              <p>This is the flyout body.</p>
+            </EuiText>
+            <EuiSpacer />
+            <EuiButton onClick={closeFlyout}>Close flyout</EuiButton>
+          </EuiFlyoutBody>
+        </EuiFlyout>
+      )}
+    </>
+  );
+};
+
+export const WithoutCloseButton: Story = {
+  render: (args) => <WithoutCloseButtonRender {...args} />,
 };

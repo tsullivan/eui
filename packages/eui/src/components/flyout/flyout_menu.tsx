@@ -6,19 +6,19 @@
  * Side Public License, v 1.
  */
 
-import React, { FunctionComponent, HTMLAttributes } from 'react';
 import classNames from 'classnames';
+import React, { FunctionComponent, HTMLAttributes, useContext } from 'react';
+import { useGeneratedHtmlId } from '../../services';
 import { CommonProps } from '../common';
-import { useEuiFlyoutMenuStyles } from './flyout_menu.styles';
 import { EuiFlexGroup, EuiFlexItem } from '../flex';
 import { EuiTitle } from '../title';
 import { EuiFlyoutCloseButton } from './_flyout_close_button';
-import { useGeneratedHtmlId } from '../../services';
+import { useEuiFlyoutMenuStyles } from './flyout_menu.styles';
+import { EuiFlyoutMenuContext } from './flyout_menu_context';
 
 export type EuiFlyoutMenuProps = CommonProps &
   HTMLAttributes<HTMLDivElement> & {
     title?: React.ReactNode;
-    onClose?: () => void;
     hideCloseButton?: boolean;
   };
 
@@ -26,10 +26,11 @@ export const EuiFlyoutMenu: FunctionComponent<EuiFlyoutMenuProps> = ({
   children,
   className,
   title,
-  onClose,
   hideCloseButton,
   ...rest
 }) => {
+  const { onClose } = useContext(EuiFlyoutMenuContext);
+
   const styles = useEuiFlyoutMenuStyles();
   const cssStyles = [styles.euiFlyoutMenu];
   const classes = classNames('euiFlyoutMenu', className);
@@ -44,8 +45,8 @@ export const EuiFlyoutMenu: FunctionComponent<EuiFlyoutMenuProps> = ({
     );
   }
 
-  const handleClose = () => {
-    onClose?.();
+  const handleClose = (event: MouseEvent | TouchEvent | KeyboardEvent) => {
+    onClose?.(event);
   };
 
   let closeButton;
@@ -64,7 +65,7 @@ export const EuiFlyoutMenu: FunctionComponent<EuiFlyoutMenuProps> = ({
       <EuiFlexGroup
         alignItems="center"
         justifyContent="spaceBetween"
-        gutterSize="m"
+        gutterSize="none"
         responsive={false}
       >
         <EuiFlexItem>
