@@ -8,14 +8,18 @@
 
 import React, { createContext, useContext, useReducer } from 'react';
 
+import { EuiIcon } from '../../icon';
+import { EuiLink } from '../../link';
+import { EuiText } from '../../text';
+import { EuiFlyoutMenu, EuiFlyoutMenuProps } from '../flyout_menu';
 import { EuiFlyout, EuiFlyoutChild } from '../index';
 
-import { initialFlyoutState, flyoutReducer } from './flyout_reducer';
+import { flyoutReducer, initialFlyoutState } from './flyout_reducer';
 import {
   EuiFlyoutSessionAction,
   EuiFlyoutSessionHistoryState,
-  EuiFlyoutSessionRenderContext,
   EuiFlyoutSessionProviderComponentProps,
+  EuiFlyoutSessionRenderContext,
 } from './types';
 
 interface FlyoutSessionContextProps {
@@ -102,6 +106,27 @@ export const EuiFlyoutSessionProvider: React.FC<
     }
   }
 
+  const getFlyoutMenu = (menuProps: EuiFlyoutMenuProps = {}) => {
+    const handleGoBack = () => {
+      dispatch({ type: 'GO_BACK' });
+    };
+    const backButton = (
+      <EuiText size="s">
+        <EuiLink onClick={handleGoBack} color="text">
+          <EuiIcon type="editorUndo" /> Back
+        </EuiLink>
+      </EuiText>
+    );
+
+    return <EuiFlyoutMenu backButton={backButton} title={menuProps.title} />;
+  };
+
+  let mainFlyoutMenu: React.ReactNode = null;
+  // FIXME: should somehow merge this with content from an outer flyout menu defined by the caller
+  if (!!state.history.length) {
+    mainFlyoutMenu = getFlyoutMenu();
+  }
+
   const config = activeFlyoutGroup?.config;
   const flyoutPropsMain = config?.mainFlyoutProps || {};
   const flyoutPropsChild = config?.childFlyoutProps || {};
@@ -116,6 +141,7 @@ export const EuiFlyoutSessionProvider: React.FC<
           ownFocus={!activeFlyoutGroup.isChildOpen}
           {...flyoutPropsMain}
         >
+          {mainFlyoutMenu}
           {mainFlyoutContentNode}
           {activeFlyoutGroup.isChildOpen && childFlyoutContentNode && (
             <EuiFlyoutChild

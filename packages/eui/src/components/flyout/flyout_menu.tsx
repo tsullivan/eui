@@ -18,6 +18,7 @@ import { EuiFlyoutMenuContext } from './flyout_menu_context';
 
 export type EuiFlyoutMenuProps = CommonProps &
   HTMLAttributes<HTMLDivElement> & {
+    backButton?: React.ReactNode;
     title?: React.ReactNode;
     hideCloseButton?: boolean;
   };
@@ -25,6 +26,7 @@ export type EuiFlyoutMenuProps = CommonProps &
 export const EuiFlyoutMenu: FunctionComponent<EuiFlyoutMenuProps> = ({
   children,
   className,
+  backButton,
   title,
   hideCloseButton,
   ...rest
@@ -75,6 +77,7 @@ export const EuiFlyoutMenu: FunctionComponent<EuiFlyoutMenuProps> = ({
             responsive={false}
             wrap
           >
+            {backButton && <EuiFlexItem grow={false}>{backButton}</EuiFlexItem>}
             {titleNode && <EuiFlexItem grow={false}>{titleNode}</EuiFlexItem>}
             {children && <EuiFlexItem grow={false}>{children}</EuiFlexItem>}
           </EuiFlexGroup>

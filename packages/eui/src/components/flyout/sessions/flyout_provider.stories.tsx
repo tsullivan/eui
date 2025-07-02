@@ -15,6 +15,7 @@ import {
   EuiFlyoutBody,
   EuiFlyoutFooter,
   EuiFlyoutHeader,
+  EuiFlyoutMenu,
   EuiSpacer,
   EuiText,
   EuiTitle,
@@ -103,7 +104,7 @@ const ShoppingCartContent: React.FC<ShoppingCartContentProps> = ({
 
   return (
     <>
-      <EuiFlyoutHeader hasBorder>
+      <EuiFlyoutHeader>
         <EuiTitle size="m">
           <h2 id="flyout-shopping-cart-title">Shopping cart</h2>
         </EuiTitle>
@@ -155,53 +156,26 @@ const ShoppingCartContent: React.FC<ShoppingCartContentProps> = ({
 const ReviewOrderContent: React.FC<ReviewOrderContentProps> = ({
   itemQuantity,
 }) => {
-  const { goBack, clearHistory } = useEuiFlyoutSession();
-  const [orderConfirmed, setOrderConfirmed] = useState(false);
+  const { clearHistory } = useEuiFlyoutSession();
 
   return (
     <>
-      <EuiFlyoutHeader hasBorder>
+      <EuiFlyoutHeader>
         <EuiTitle size="m">
           <h2 id="flyout-review-order-title">Review order</h2>
         </EuiTitle>
       </EuiFlyoutHeader>
       <EuiFlyoutBody>
         <EuiText>
-          <h3>Review your order</h3>
           <p>Item: Flux Capacitor</p>
           <p>Quantity: {itemQuantity}</p>
         </EuiText>
         <EuiSpacer />
-        {orderConfirmed ? (
-          <EuiText>
-            <p>Order confirmed!</p>
-          </EuiText>
-        ) : (
-          <EuiButton
-            onClick={() => setOrderConfirmed(true)}
-            fill
-            color="accent"
-          >
-            Confirm purchase
-          </EuiButton>
-        )}
+        <EuiButton fill color="accent">
+          Confirm purchase
+        </EuiButton>
       </EuiFlyoutBody>
       <EuiFlyoutFooter>
-        {!orderConfirmed && (
-          <EuiButton
-            onClick={() => {
-              console.log('Go back button clicked');
-              goBack();
-              // Add a setTimeout to check the state a little after the action is dispatched
-              setTimeout(() => {
-                console.log('After goBack timeout check');
-              }, 100);
-            }}
-            color="danger"
-          >
-            Go back
-          </EuiButton>
-        )}{' '}
         <EuiButton onClick={clearHistory} color="danger">
           Close
         </EuiButton>
@@ -214,13 +188,10 @@ const ItemDetailsContent: React.FC<ItemDetailsContentProps> = ({
   itemQuantity,
 }) => {
   const { closeChildFlyout } = useEuiFlyoutSession();
+
   return (
     <>
-      <EuiFlyoutHeader hasBorder>
-        <EuiTitle size="m">
-          <h2 id="flyout-item-details-title">Item details</h2>
-        </EuiTitle>
-      </EuiFlyoutHeader>
+      <EuiFlyoutMenu title="Item details" />
       <EuiFlyoutBody>
         <EuiText>
           <p>
