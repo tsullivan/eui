@@ -87,7 +87,6 @@ export interface EuiFlyoutSessionRenderContext<FlyoutMeta = unknown> {
   flyoutProps: Partial<EuiFlyoutProps | EuiFlyoutChildProps>;
   flyoutSize: EuiFlyoutProps['size'] | EuiFlyoutChildProps['size'];
   flyoutType: 'main' | 'child';
-  dispatch: React.Dispatch<EuiFlyoutSessionAction<FlyoutMeta>>;
   activeFlyoutGroup: EuiFlyoutSessionGroup<FlyoutMeta> | null;
   meta?: FlyoutMeta;
 }

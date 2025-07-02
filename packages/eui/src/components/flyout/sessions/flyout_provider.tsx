@@ -83,7 +83,6 @@ export const EuiFlyoutSessionProvider: React.FC<
       flyoutProps: activeFlyoutGroup.config.mainFlyoutProps || {},
       flyoutSize: activeFlyoutGroup.config.mainSize,
       flyoutType: 'main',
-      dispatch,
       activeFlyoutGroup,
       meta: activeFlyoutGroup.meta,
     };
@@ -94,7 +93,6 @@ export const EuiFlyoutSessionProvider: React.FC<
         flyoutProps: activeFlyoutGroup.config.childFlyoutProps || {},
         flyoutSize: activeFlyoutGroup.config.childSize,
         flyoutType: 'child',
-        dispatch,
         activeFlyoutGroup,
         meta: activeFlyoutGroup.meta,
       };
