@@ -60,6 +60,10 @@ export interface EuiFlyoutChildProps
    * @default 's'
    */
   size?: 's' | 'm';
+  /*
+   * The background of the child flyout can be optionally shaded. Use `shaded` to add the shading.
+   */
+  backgroundStyle?: 'shaded' | 'default';
   /**
    * Children are implicitly part of FunctionComponent, but good to have if props type is standalone.
    */
