@@ -104,6 +104,7 @@ const ShoppingCartContent: React.FC<ShoppingCartContentProps> = ({
 
   return (
     <>
+      <EuiFlyoutMenu />
       <EuiFlyoutHeader>
         <EuiTitle size="m">
           <h2 id="flyout-shopping-cart-title">Shopping cart</h2>
