@@ -25,7 +25,6 @@ export const euiFlyoutChildStyles = (euiThemeContext: UseEuiTheme) => {
       inset-block-start: 0;
       inset-inline-start: 0;
       block-size: 100%;
-      background: ${euiTheme.colors.backgroundBaseSubdued};
       display: flex;
       flex-direction: column;
       ${logicalCSSWithFallback('overflow-y', 'hidden')}
@@ -34,6 +33,13 @@ export const euiFlyoutChildStyles = (euiThemeContext: UseEuiTheme) => {
       border-inline-start: ${euiTheme.border.thin};
 
       ${maxedFlyoutWidth(euiThemeContext)}
+    `,
+
+    backgroundDefault: css`
+      background: ${euiTheme.colors.backgroundBasePlain};
+    `,
+    backgroundShaded: css`
+      background: ${euiTheme.colors.backgroundBaseSubdued};
     `,
 
     // Position variants based on screen size

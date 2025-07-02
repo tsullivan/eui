@@ -78,6 +78,7 @@ export interface EuiFlyoutChildProps
  */
 export const EuiFlyoutChild: FunctionComponent<EuiFlyoutChildProps> = ({
   children,
+  backgroundStyle = 'default',
   className,
   banner,
   hideCloseButton = false,
@@ -209,6 +210,9 @@ export const EuiFlyoutChild: FunctionComponent<EuiFlyoutChildProps> = ({
 
   const flyoutChildCss = [
     styles.euiFlyoutChild,
+    backgroundStyle === 'shaded'
+      ? styles.backgroundShaded
+      : styles.backgroundDefault,
     size === 's' ? styles.s : styles.m,
     childLayoutMode === 'side-by-side'
       ? styles.sidePosition
