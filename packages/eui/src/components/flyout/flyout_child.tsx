@@ -256,7 +256,6 @@ export const EuiFlyoutChild: FunctionComponent<EuiFlyoutChildProps> = ({
         {!hideCloseButton && !hasFlyoutMenu && (
           <EuiFlyoutCloseButton
             className="euiFlyoutChild__closeButton"
-            css={styles.closeButton}
             onClose={handleClose}
             side="right"
             closeButtonPosition="inside"

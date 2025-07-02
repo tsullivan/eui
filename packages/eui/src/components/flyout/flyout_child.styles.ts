@@ -61,13 +61,6 @@ export const euiFlyoutChildStyles = (euiThemeContext: UseEuiTheme) => {
       ${composeFlyoutSizing(euiThemeContext, 'm')}
     `,
 
-    closeButton: css`
-      position: absolute;
-      inset-block-start: ${euiTheme.size.s};
-      inset-inline-end: ${euiTheme.size.s};
-      z-index: 1;
-    `,
-
     overflow: {
       overflow: css`
         flex-grow: 1;
