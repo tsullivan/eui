@@ -74,7 +74,7 @@ const ShoppingCartContent: React.FC<ShoppingCartContentProps> = ({
   const { state } = useEuiFlyoutSessionContext();
   const { config, isChildOpen } = state.activeFlyoutGroup || {};
 
-  const handleOpenChildDetails = () => {
+  const handleOpenItemDetails = () => {
     const options: EuiFlyoutSessionOpenChildOptions<WithHistoryAppMeta> = {
       size: 's',
       flyoutProps: {
@@ -114,7 +114,7 @@ const ShoppingCartContent: React.FC<ShoppingCartContentProps> = ({
           <p>Item: Flux Capacitor</p>
         </EuiText>
         <EuiButton
-          onClick={isChildOpen ? closeChildFlyout : handleOpenChildDetails}
+          onClick={isChildOpen ? closeChildFlyout : handleOpenItemDetails}
         >
           {isChildOpen ? 'Close item details' : 'View item details'}
         </EuiButton>
