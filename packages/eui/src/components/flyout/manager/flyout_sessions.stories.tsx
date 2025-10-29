@@ -173,7 +173,7 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = React.memo((props) => {
                   },
                   {
                     title: 'session',
-                    description: 'start',
+                    description: <EuiCode>start</EuiCode>,
                   },
                 ]}
               />
@@ -187,42 +187,42 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = React.memo((props) => {
               )}
             </EuiText>
           </EuiFlyoutBody>
-          {childSize && isChildFlyoutVisible && (
-            <EuiFlyout
-              id={`childFlyout-${title}`}
-              flyoutMenuProps={{ title: `${title} - Child` }}
-              aria-labelledby="childFlyoutTitle"
-              size={childSize}
-              maxWidth={childMaxWidth}
-              onActive={childFlyoutOnActive}
-              onClose={childFlyoutOnClose}
-              hasChildBackground={hasChildBackground}
-            >
-              <EuiFlyoutBody>
-                <EuiText>
-                  <p>This is the content of the child flyout of {title}.</p>
-                  <EuiSpacer size="s" />
-                  <EuiDescriptionList
-                    type="column"
-                    listItems={[
-                      {
-                        title: 'Child flyout size',
-                        description: childSize ?? 'N/A',
-                      },
-                      {
-                        title: 'Child flyout maxWidth',
-                        description: childMaxWidth ?? 'N/A',
-                      },
-                      {
-                        title: 'session',
-                        description: 'inherit',
-                      },
-                    ]}
-                  />
-                </EuiText>
-              </EuiFlyoutBody>
-            </EuiFlyout>
-          )}
+        </EuiFlyout>
+      )}
+      {childSize && isChildFlyoutVisible && (
+        <EuiFlyout
+          id={`childFlyout-${title}`}
+          session="inherit"
+          flyoutMenuProps={{ title: `${title} - Child` }}
+          size={childSize}
+          maxWidth={childMaxWidth}
+          onActive={childFlyoutOnActive}
+          onClose={childFlyoutOnClose}
+          hasChildBackground={hasChildBackground}
+        >
+          <EuiFlyoutBody>
+            <EuiText>
+              <p>This is the content of the child flyout of {title}.</p>
+              <EuiSpacer size="s" />
+              <EuiDescriptionList
+                type="column"
+                listItems={[
+                  {
+                    title: 'Child flyout size',
+                    description: childSize ?? 'N/A',
+                  },
+                  {
+                    title: 'Child flyout maxWidth',
+                    description: childMaxWidth ?? 'N/A',
+                  },
+                  {
+                    title: 'session',
+                    description: <EuiCode>inherit</EuiCode>,
+                  },
+                ]}
+              />
+            </EuiText>
+          </EuiFlyoutBody>
         </EuiFlyout>
       )}
     </>
@@ -252,6 +252,7 @@ const NonSessionFlyout: React.FC<{
           Open non-session flyout
         </EuiButton>
       </EuiText>
+      {/* Using default EuiFlyout session behavior of 'never' */}
       {isFlyoutVisible && (
         <EuiFlyout
           id="nonSessionFlyout"
@@ -261,7 +262,6 @@ const NonSessionFlyout: React.FC<{
           ownFocus={false}
           pushAnimation={true}
           onClose={flyoutOnClose}
-          session="never"
           side="left"
         >
           <EuiFlyoutHeader>
@@ -272,9 +272,9 @@ const NonSessionFlyout: React.FC<{
           <EuiFlyoutBody>
             <EuiText>
               <p>
-                This is the content of a non-session flyout. We assure it will
-                never become a managed flyout by setting{' '}
-                <EuiCode>{'session={never}'}</EuiCode>.
+                This is the content of a non-session flyout. It is assured to
+                not be a managed flyout using the{' '}
+                <EuiCode>{'session={never}'}</EuiCode> behavior.
               </p>
               <EuiSpacer size="s" />
               <EuiDescriptionList
@@ -282,7 +282,14 @@ const NonSessionFlyout: React.FC<{
                 listItems={[
                   { title: 'Flyout type', description: flyoutType },
                   { title: 'Size', description: 'm' },
-                  { title: 'session', description: 'never' },
+                  {
+                    title: 'session',
+                    description: (
+                      <>
+                        <EuiCode>never</EuiCode> (using default)
+                      </>
+                    ),
+                  },
                 ]}
               />
             </EuiText>
@@ -467,6 +474,7 @@ const ExternalRootChildFlyout: React.FC<{ parentId: string }> = ({
       {isOpen && (
         <EuiFlyout
           id={`child-flyout-${parentId}`}
+          session="inherit"
           size="s"
           onClose={handleClose}
           ownFocus={false}
