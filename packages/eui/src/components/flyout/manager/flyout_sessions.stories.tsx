@@ -6,6 +6,7 @@
  * Side Public License, v 1.
  */
 
+import { css } from '@emotion/react';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryObj } from '@storybook/react';
 import React, {
@@ -82,6 +83,15 @@ const DisplayContext: React.FC<{ title: string }> = ({ title }) => {
     </>
   );
 };
+
+const focusStyle = () =>
+  css({
+    // Global focus indicator for accessibility testing
+    '&:focus, &:focus-visible, & *:focus, & *:focus-visible': {
+      outline: '4px solid #00BFB3 !important',
+      outlineOffset: '2px',
+    },
+  });
 
 const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
   const { title, mainSize, childSize, mainMaxWidth, childMaxWidth } = props;
@@ -169,6 +179,7 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
           pushAnimation={true}
           onActive={mainFlyoutOnActive}
           onClose={mainFlyoutOnClose}
+          css={focusStyle}
         >
           <EuiFlyoutHeader>
             <EuiTitle size="m">
@@ -215,6 +226,7 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
               maxWidth={childMaxWidth}
               onActive={childFlyoutOnActive}
               onClose={childFlyoutOnClose}
+              css={focusStyle}
             >
               <EuiFlyoutBody>
                 <EuiText>
@@ -313,6 +325,7 @@ const NonSessionFlyout: React.FC<{ size: string }> = ({ size }) => {
           ownFocus={flyoutOwnFocus}
           pushAnimation={true}
           onClose={flyoutOnClose}
+          css={focusStyle}
         >
           <EuiFlyoutHeader>
             <EuiTitle size="m">
@@ -546,6 +559,7 @@ const ExternalRootChildFlyout: React.FC<{ parentId: string }> = ({
           ownFocus={false}
           flyoutMenuProps={{ title: `Child flyout of ${parentId}` }}
           data-test-subj="child-flyout-in-new-root"
+          css={focusStyle}
         >
           <EuiFlyoutBody>
             <EuiText>
@@ -625,6 +639,7 @@ const ExternalRootFlyout: React.FC<{ id: string }> = ({ id }) => {
           onClose={() => setIsOpen(false)}
           ownFocus={false}
           flyoutMenuProps={{ title: `${id} flyout` }}
+          css={focusStyle}
         >
           <EuiFlyoutHeader>
             <EuiTitle size="m">
