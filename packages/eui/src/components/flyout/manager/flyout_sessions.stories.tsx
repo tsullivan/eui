@@ -102,6 +102,29 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
   const [flyoutType, setFlyoutType] = useState<'overlay' | 'push'>('push');
   const [flyoutOwnFocus, setFlyoutOwnFocus] = useState(false);
 
+  // Refs for manual focus management
+  const mainFlyoutRef = useRef<HTMLElement>(null);
+  const childFlyoutRef = useRef<HTMLElement>(null);
+
+  // Focus the main flyout when it becomes visible
+  useEffect(() => {
+    if (isFlyoutVisible && mainFlyoutRef.current) {
+      // Small delay to ensure flyout is rendered
+      setTimeout(() => {
+        mainFlyoutRef.current?.focus();
+      }, 100);
+    }
+  }, [isFlyoutVisible]);
+
+  // Focus the child flyout when it becomes visible
+  useEffect(() => {
+    if (isChildFlyoutVisible && childFlyoutRef.current) {
+      setTimeout(() => {
+        childFlyoutRef.current?.focus();
+      }, 100);
+    }
+  }, [isChildFlyoutVisible]);
+
   // Handlers for "Open" buttons
 
   const handleOpenMainFlyout = () => {
@@ -169,6 +192,8 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
       </EuiFlexGroup>
       {isFlyoutVisible && (
         <EuiFlyout
+          ref={mainFlyoutRef}
+          tabIndex={0}
           id={`mainFlyout-${title}`}
           session="start"
           flyoutMenuProps={{ title: `${title} - Main` }}
@@ -220,6 +245,8 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
           </EuiFlyoutBody>
           {childSize && isChildFlyoutVisible && (
             <EuiFlyout
+              ref={childFlyoutRef}
+              tabIndex={0}
               id={`childFlyout-${title}`}
               flyoutMenuProps={{ title: `${title} - Child` }}
               size={childSize}
