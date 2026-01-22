@@ -105,6 +105,8 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
   // Refs for manual focus management
   const mainFlyoutRef = useRef<HTMLElement>(null);
   const childFlyoutRef = useRef<HTMLElement>(null);
+  const mainTriggerRef = useRef<HTMLButtonElement>(null);
+  const childTriggerRef = useRef<HTMLButtonElement>(null);
 
   // Focus the main flyout when it becomes visible
   useEffect(() => {
@@ -149,11 +151,21 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
     action('close main flyout')(title);
     setIsFlyoutVisible(false);
     setIsChildFlyoutVisible(false);
+
+    // Return focus to main trigger button after closing main flyout
+    setTimeout(() => {
+      mainTriggerRef.current?.focus();
+    }, 100);
   }, [title]);
 
   const childFlyoutOnClose = useCallback(() => {
     action('close child flyout')(title);
     setIsChildFlyoutVisible(false);
+
+    // Return focus to child trigger button after closing child flyout
+    setTimeout(() => {
+      childTriggerRef.current?.focus();
+    }, 100);
   }, [title]);
 
   // Render
@@ -185,7 +197,11 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiButton disabled={isFlyoutVisible} onClick={handleOpenMainFlyout}>
+          <EuiButton
+            buttonRef={mainTriggerRef}
+            disabled={isFlyoutVisible}
+            onClick={handleOpenMainFlyout}
+          >
             Open {title} flyout
           </EuiButton>
         </EuiFlexItem>
@@ -235,6 +251,7 @@ const FlyoutSession: React.FC<FlyoutSessionProps> = (props) => {
               />
               {childSize && (
                 <EuiButton
+                  buttonRef={childTriggerRef}
                   onClick={handleOpenChildFlyout}
                   disabled={isChildFlyoutVisible}
                 >
@@ -299,6 +316,19 @@ const NonSessionFlyout: React.FC<{ size: string }> = ({ size }) => {
   const [flyoutType, setFlyoutType] = useState<'overlay' | 'push'>('push');
   const [flyoutOwnFocus, setFlyoutOwnFocus] = useState(false);
 
+  // Refs for manual focus management
+  const flyoutRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // Focus the flyout when it becomes visible
+  useEffect(() => {
+    if (isFlyoutVisible && flyoutRef.current) {
+      setTimeout(() => {
+        flyoutRef.current?.focus();
+      }, 100);
+    }
+  }, [isFlyoutVisible]);
+
   const handleOpenFlyout = () => {
     setIsFlyoutVisible(true);
   };
@@ -306,6 +336,11 @@ const NonSessionFlyout: React.FC<{ size: string }> = ({ size }) => {
   const flyoutOnClose = useCallback(() => {
     action('close non-session flyout')();
     setIsFlyoutVisible(false);
+
+    // Return focus to trigger button after closing flyout
+    setTimeout(() => {
+      triggerRef.current?.focus();
+    }, 100);
   }, []);
 
   // Render
@@ -337,13 +372,19 @@ const NonSessionFlyout: React.FC<{ size: string }> = ({ size }) => {
           </EuiFlexGroup>
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiButton disabled={isFlyoutVisible} onClick={handleOpenFlyout}>
+          <EuiButton
+            buttonRef={triggerRef}
+            disabled={isFlyoutVisible}
+            onClick={handleOpenFlyout}
+          >
             Open non-session flyout
           </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>
       {isFlyoutVisible && (
         <EuiFlyout
+          ref={flyoutRef}
+          tabIndex={0}
           // Using default EuiFlyout session behavior of 'never'
           id="nonSessionFlyout"
           aria-labelledby="nonSessionFlyoutTitle"
@@ -489,7 +530,7 @@ const MultiSessionFlyoutDemo: React.FC = () => {
   ];
 
   return (
-    <>
+    <div css={focusStyle}>
       <EuiDescriptionList
         type="column"
         columnGutterSize="s"
@@ -546,7 +587,7 @@ const MultiSessionFlyoutDemo: React.FC = () => {
           facilisis luctus, metus.
         </p>
       </EuiText>
-    </>
+    </div>
   );
 };
 
@@ -732,7 +773,7 @@ const MultiRootFlyoutDemo: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div css={focusStyle}>
       <EuiTitle size="s">
         <h3>Multiple React roots</h3>
       </EuiTitle>
@@ -757,7 +798,7 @@ const MultiRootFlyoutDemo: React.FC = () => {
       <EuiSpacer size="l" />
 
       <DisplayContext title="Shared manager state" />
-    </>
+    </div>
   );
 };
 
