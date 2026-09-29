@@ -20,6 +20,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/release_lib.sh"
 
 load_package_dirs
 require_upstream
+require_origin
 require_clean_tree
 
 step "1/8" "Ensuring npm is not authenticated..."

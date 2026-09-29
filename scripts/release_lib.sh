@@ -30,6 +30,12 @@ require_upstream() {
   git remote get-url upstream &>/dev/null || error "'upstream' remote not found. Please add it: git remote add upstream git@github.com:elastic/eui.git"
 }
 
+# Ensure the `origin` remote exists. Checked up front because it isn't used until
+# the branch is pushed, long after the version bumps have been committed.
+require_origin() {
+  git remote get-url origin &>/dev/null || error "'origin' remote not found. Please add it: git remote add origin git@github.com:<your-username>/eui.git"
+}
+
 # Bail if there are uncommitted changes.
 require_clean_tree() {
   if [[ -n "$(git status --porcelain)" ]]; then
